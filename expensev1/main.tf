@@ -7,6 +7,13 @@ resource "aws_instance" "frontend" {
   }
 }
 
+resource "aws_route53_record" "frontend" {
+  zone_id = "Z03008653NMBFHGJP7YNJ"
+  name    = "frontend.aligntune.online"
+  type    = "A"
+  ttl     = 300
+  records = [aws_instance.frontend.private_ip]
+}
 resource "null_resource" "frontend" {
   depends_on = [ aws_instance.frontend ]
   provisioner "local-exec" {
@@ -29,11 +36,14 @@ resource "aws_instance" "mysql" {
   }
 }
 
-resource "aws_route53_record" "frontend" {
+
+
+resource "aws_route53_record" "mysql" {
   zone_id = "Z03008653NMBFHGJP7YNJ"
-  name    = "frontend.aligntune.online"
+  name    = "mysql.aligntune.online"
   type    = "A"
   ttl     = 300
+  records = [ aws_instance.mysql.private_ip ]
 }
 
 resource "null_resource" "mysql" {
@@ -48,12 +58,6 @@ resource "null_resource" "mysql" {
   }
 }
 
-resource "aws_route53_record" "mysql" {
-  zone_id = "Z03008653NMBFHGJP7YNJ"
-  name    = "mysql.aligntune.online"
-  type    = "A"
-  ttl     = 300
-}
 resource "aws_instance" "backend" {
   ami = data.aws_ami.ami.id
   instance_type = "t3.micro"
@@ -69,6 +73,7 @@ resource "aws_route53_record" "backend" {
   name    = "backend.aligntune.online"
   type    = "A"
   ttl     = 300
+  records = [ aws_instance.backend.private_ip ]
 }
 
 resource "null_resource" "backend" {
