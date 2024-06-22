@@ -8,6 +8,7 @@ resource "aws_instance" "frontend" {
 }
 
 resource "null_resource" "frontend" {
+  depends_on = [ aws_instance.frontend ]
   provisioner "local-exec" {
     command = <<EOF
     cd /root/Expense-ansible
