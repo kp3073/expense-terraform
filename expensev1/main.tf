@@ -29,6 +29,13 @@ resource "aws_instance" "mysql" {
   }
 }
 
+resource "aws_route53_record" "frontend" {
+  zone_id = "Z03008653NMBFHGJP7YNJ"
+  name    = "frontend.aligntune.online"
+  type    = "A"
+  ttl     = 300
+}
+
 resource "null_resource" "mysql" {
   depends_on = [ aws_instance.mysql ]
   provisioner "local-exec" {
@@ -41,7 +48,12 @@ resource "null_resource" "mysql" {
   }
 }
 
-
+resource "aws_route53_record" "mysql" {
+  zone_id = "Z03008653NMBFHGJP7YNJ"
+  name    = "mysql.aligntune.online"
+  type    = "A"
+  ttl     = 300
+}
 resource "aws_instance" "backend" {
   ami = data.aws_ami.ami.id
   instance_type = "t3.micro"
@@ -49,6 +61,14 @@ resource "aws_instance" "backend" {
   tags = {
     name = "backend"
   }
+}
+
+
+resource "aws_route53_record" "backend" {
+  zone_id = "Z03008653NMBFHGJP7YNJ"
+  name    = "backend.aligntune.online"
+  type    = "A"
+  ttl     = 300
 }
 
 resource "null_resource" "backend" {
