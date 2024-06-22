@@ -8,3 +8,7 @@ data "aws_ami" "ami" {
   data "aws_security_group" "sg" {
   name = "allow-all"
 }
+
+locals {
+  ami = data.aws_ami.ami.id
+}
