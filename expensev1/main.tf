@@ -5,13 +5,15 @@ resource "aws_instance" "frontend" {
   tags =  {
     name = "frontend"
   }
+}
 
+resource "null_resource" "frontend" {
   provisioner "local-exec" {
     command = <<EOF
     cd /root/Expense-ansible
     git pull
     sleep 60
-    ansible-playbook -i ${self.private_ip}, -e ansible_username=centos -e ansible_password=DevOps321 main.yml -e role_name=frontend
+    ansible-playbook -i ${aws.instance.frontend.private_ip}, -e ansible_username=centos -e ansible_password=DevOps321 main.yml -e role_name=frontend
     EOF
   }
 }
