@@ -8,7 +8,7 @@ resource "aws_instance" "instance" {
 }
 
 resource "aws_route53_record" "record" {
-  zone_id = "Z03008653NMBFHGJP7YNJ"
+  zone_id = local.zone_id
   name    = "${var.componant}.aligntune.online"
   type    = "A"
   ttl     = 300

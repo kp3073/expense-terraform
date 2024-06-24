@@ -12,3 +12,11 @@ data "aws_ami" "ami" {
 locals {
   ami = data.aws_ami.ami.id
 }
+
+data "aws_route53_zone" "zone" {
+  zone_id = "Z03008653NMBFHGJP7YNJ"
+}
+
+locals {
+  zone_id = data.aws_route53_zone.zone
+}
